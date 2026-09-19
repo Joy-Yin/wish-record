@@ -1,7 +1,6 @@
-// ⚠️ 請把下方網址替換成您在 Google GAS 部署後取得的「網頁應用程式 URL」
-const GAS_URL = "https://script.google.com/macros/s/AKfycbw2hnCkFZg8jLnGgMzq9f_-zpz8tKF445ms3gXmlEDX5HfzniD1ZyGPzcf59f7f-u94/exec";
 
-const SECRET_CODE = "123456";
+const GAS_URL = "__GAS_URL_HOLDER__";
+const SECRET_CODE = "__SECRET_CODE__"; 
 
 // 驗證身分
 (function() {
