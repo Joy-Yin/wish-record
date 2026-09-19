@@ -1,0 +1,251 @@
+body {
+    background-color: #f8f9fa;
+    padding-top: 30px;
+    padding-bottom: 50px;
+}
+
+.form-container {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: center;
+    text-align: center;
+}
+
+.hidden {
+    display: none;
+}
+
+.mode-tab {
+    cursor: pointer;
+    padding: 10px;
+    text-align: center;
+    border: 3px solid transparent;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin: 10px;
+    margin-bottom: 20px;
+    float: right;
+    transition: all 0.2s ease-in-out;
+}
+
+.mode-tab:hover {
+    color: #ffc107;
+}
+
+.mode-tab.active {
+    border-color: #e10dfd;
+    box-shadow: 0 4px 6px #a9a9a9;
+    color: #e10dfd;
+    background-color: #ffc107;
+}
+
+.multi-row {
+    background: #f8f9fa;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    border-left: 4px solid #ced4da;
+    transition: all 0.15s ease;
+}
+
+.multi-row.rarity-5 {
+    border-left-color: #ffc107;
+    background: #fffbeb;
+}
+
+.multi-row.rarity-4 {
+    border-left-color: #b19ffb;
+    background: #f5f3ff;
+}
+
+.table-rarity-5 {
+    background-color: #fff3cd !important;
+    color: #856404;
+    font-weight: bold;
+}
+
+.table-rarity-4 {
+    background-color: #f3e5f5 !important;
+    color: #4a148c;
+    font-weight: bold;
+}
+
+table {
+    font-size: 1.3rem;
+    box-shadow: 0 0 8px 8px #ffeaab;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+td {
+    padding: 2px 6px;
+}
+
+h3 {
+    text-align: center;
+    font-size: 2.5rem;
+}
+
+h3 span {
+    font-size: 1rem;
+}
+
+.form-label {
+    font-size: 1.3rem;
+}
+
+.form-select {
+    font-size: 1.2rem;
+    border-radius: 8px;
+}
+
+select {
+    appearance: base-select;
+    border: 2px solid;
+    margin: 1px;
+    border-radius: 2px;
+    border-color: #000;
+}
+
+select:hover {
+    background-color: #a9a9a9;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.form-select::picker(select) {
+    border-radius: 8px;
+    appearance: base-select;
+    cursor: pointer;
+}
+
+.form-select::picker-icon {
+    /* content: "▼"; */
+    font-size: 1rem;
+    color: #6a6a6a;
+    transition: rotate 0.3s;
+}
+
+.form-select:open::picker-icon {
+    /* transform: rotate(180deg); */
+    rotate: 180deg;
+}
+
+option:hover,
+option:focus {
+    background-color: #a9a9a9;
+}
+
+h5 {
+    font-size: 1.5rem;
+    margin: 20px auto;
+}
+
+#submitBtn,
+#seeRecord {
+    box-shadow: 0 2px 0 2px #000;
+    background-color: #ffc107;
+    cursor: pointer;
+    padding: 10px;
+    text-align: center;
+    border: 3px solid;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin: 10px;
+}
+
+#submitBtn:hover,
+#seeRecord:hover {
+    border-color: #000;
+    color: #e10dfd;
+}
+
+#submitBtn:active,
+#seeRecord:active {
+    box-shadow:0 0 0 0;
+    transition: ease-in-out 0.05s;
+}
+
+#refreshBtn {
+    box-shadow: 0 2px 0 2px #000;
+    background-color: #4fbdab;
+    cursor: pointer;
+    padding: 10px;
+    text-align: center;
+    border: 3px solid;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin: 20px;
+}
+
+#btnPrevPage,
+#btnNextPage {
+    background-color: #4fbdab;
+    cursor: pointer;
+    padding: 10px;
+    text-align: center;
+    border: 3px solid;
+    border-radius: 10px;
+    font-weight: bold;
+    margin: 10px;
+    box-shadow: 0 2px 0 2px #000
+}
+
+#refreshBtn:hover,
+#btnPrevPage:hover,
+#btnNextPage:hover{
+    border-color: #000;
+    color: #ab3c52;
+}
+
+#refreshBtn:active,
+#btnPrevPage:active,
+#btnNextPage:active {
+    box-shadow:0 0 0 0;
+    transition: ease-in-out 0.05s;
+}
+
+#modeblock {
+    justify-content: center;
+    width: 60%;
+    clear: both;
+}
+
+.mb-3 {
+    text-align: center;
+}
+
+#statusMessage {
+    font-size: 1.3rem;
+}
+
+.form-control {
+    font-size: 1.3rem;
+    border-color: #000;
+    border-radius: 2px;
+}
+
+#statsTotalPulls,
+#statsAvgPulls {
+    font-size: 1.5rem;
+}
+
+.page-link {
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+#filterCount {
+    font-size: 1.3rem;
+    padding: 5px;
+    padding-top: 10px;
+}
+

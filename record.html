@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>檢視抽卡紀錄</title>
+    <link href="https://cloudflare.com" rel="stylesheet">
+    <link href="./style.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- 區塊二：動態篩選功能區 -->
+    <div class="col-md-10 col-lg-8 form-container">
+        <h3 class="mb-4 text-center text-primary">🎲 檢視抽卡紀錄</h3>
+        <h5 class="text-secondary mb-3">篩選與過濾條件</h5>
+        <div class="row g-2">
+            <div class="col-md-4">
+                <label class="form-label small text-muted">依玩家</label>
+                <select class="form-select form-select-sm" id="filterPlayer">
+                    <option value="ALL">全部玩家</option>
+                    <option value="琥珀">琥珀</option>
+                    <option value="冥">冥</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label small text-muted">依遊戲</label>
+                <select class="form-select form-select-sm" id="filterGame">
+                    <option value="ALL">全部遊戲</option>
+                    <option value="原神">原神</option>
+                    <option value="崩鐵">崩鐵</option>
+                    <option value="絕區零">絕區零</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label small text-muted">依卡池</label>
+                <select class="form-select form-select-sm" id="filterBanner">
+                    <option value="ALL">全部卡池</option>
+                    <option value="限定池">限定池</option>
+                    <option value="常駐池">常駐池</option>
+                    <option value="武器/光錐池">武器/光錐池</option>
+                    <option value="混池">混池</option>
+                    <option value="其他">其他</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label small text-muted">稀有度過濾</label>
+                <select class="form-select form-select-sm" id="filterRarity">
+                    <option value="ALL">看全部星等</option>
+                    <option value="5星">只看 5 星</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- 區塊三：歷史紀錄顯示區 -->
+    <div class="col-md-10 col-lg-8 form-container">
+        <!-- 抽數數據統計看板（新加入） -->
+        <div id="statsBox" class="alert alert-info py-2 px-3 mb-3 hidden">
+            <div class="row text-center small fw-bold text-dark">
+                <div class="col-6 border-end" id="statsTotalPulls">總累計抽數: -- 抽</div>
+                <div class="col-6" id="statsAvgPulls">平均五星產出: -- 抽/隻</div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="text-secondary mb-0">歷史抽卡紀錄</h5>
+            <button class="btn btn-outline-secondary btn-sm" id="refreshBtn">重新整理</button>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped align-middle text-center mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>時間</th>
+                        <th>玩家</th>
+                        <th>遊戲</th>
+                        <th>卡池</th>
+                        <th>星等</th>
+                        <th>物品名稱</th>
+                        <th id="thPullsCount" class="hidden">出貨抽數</th>
+                    </tr>
+                </thead>
+                <tbody id="historyTableBody">
+                    <tr>
+                        <td colspan="6" class="text-muted py-4">正在載入紀錄中...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 分頁控制與資訊元件（新加入） -->
+        <div class="d-flex justify-content-between align-items-center mt-3">
+            <div id="filterCount" class="text-muted small">顯示第 0 到 0 筆 / 共 0 筆</div>
+            <nav>
+                <div>
+                    <button class="page-link" type="button" id="btnPrevPage">上一頁</button>
+                    <span class="page-link text-dark fw-bold" id="txtPageNum">1</span>
+                    <button class="page-link" type="button" id="btnNextPage">下一頁</button>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <script src="./getRecord.js"></script>
+</body>
+
+</html>

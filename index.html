@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>遊戲抽卡紀錄系統</title>
+    <!-- 引入簡單美觀的 CSS 框架 -->
+    <link href="https://cloudflare.com" rel="stylesheet">
+    <link href="./style.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 form-container">
+                <h3 class="mb-4 text-center text-primary">🎲 抽卡紀錄系統<span>&nbsp;&nbsp;&nbsp;version 1.0</span></h3>
+                
+
+                <!-- 模式切換頁籤 -->
+                <div class="mb-3" id="modeblock">
+                    <div class="col-6 mb-3 mode-tab active" id="tabSingle">單抽入魂!!</div>
+                    <div class="col-6 mb-3 mode-tab" id="tabMulti">十連雙金!!</div>
+                </div>
+
+                <form id="gachaForm" style="clear: both;">
+                    <!-- 玩家名稱 -->
+                    <div class="mb-3">
+                        <label class="form-label">玩家</label>
+                        <select class="form-select" id="playerName" required>
+                            <option value="" disabled selected>請選擇你是誰...</option>
+                            <option value="琥珀">琥珀</option>
+                            <option value="冥">冥</option>
+                        </select>
+                    </div>
+
+                    <!-- 遊戲名稱 -->
+                    <div class="mb-3">
+                        <label class="form-label">遊戲名稱</label>
+                        <select class="form-select" id="gameName" required>
+                            <option value="" disabled selected>請選擇遊戲名稱</option>
+                            <option value="原神">原神</option>
+                            <option value="崩鐵">崩鐵</option>
+                            <option value="絕區零">絕區零</option>
+                        </select>
+                    </div>
+
+                    <!-- 抽卡池 -->
+                    <div class="mb-3">
+                        <label class="form-label">卡池種類</label>
+                        <select class="form-select" id="bannerType" required>
+                            <option value="" disabled selected>請選擇卡池種類</option>
+                            <option value="限定池">限定池</option>
+                            <option value="常駐池">常駐池</option>
+                            <option value="武器/光錐池">武器/光錐池</option>
+                            <option value="混池">混池</option>
+                            <option value="其他">其他</option>
+                        </select>
+                    </div>
+
+                    <hr>
+
+                    <!-- 【區域 A：單抽模式】 -->
+                    <div id="singleModeSection">
+                        <h5 class="text-secondary mb-3">單抽內容</h5>
+                        <div class="mb-3">
+                            <label class="form-label">稀有度（星等）</label>
+                            <select class="form-select" id="singleRarity">
+                                <option value="5星">5星</option>
+                                <option value="4星" selected>4星</option>
+                                <option value="3星">3星</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">抽到角色 / 武器名稱</label>
+                            <select class="form-select" id="singleItemSelect"></select>
+                            <input type="text" class="form-control hidden" id="singleItemInput"
+                                placeholder="請手動輸入 5 星名稱">
+                        </div>
+                    </div>
+
+                    <!-- 【區域 B：十連抽模式】 -->
+                    <div id="multiModeSection" class="hidden">
+                        <h5 class="text-secondary mb-3">十連抽內容 (可自行調整 1~10 筆)</h5>
+                        <div id="multiRowsContainer">
+                            <!-- 10筆抽卡資料列會由 JS 動態生成 -->
+                        </div>
+                    </div>
+
+                    <!-- 送出按鈕 -->
+                    <button type="submit" class="btn btn-primary w-100" id="submitBtn">送出紀錄</button>
+                </form>
+                <button class="btn btn-primary w-100" id="seeRecord" onclick="window.open('./record.html');">查看紀錄</button>
+                <div id="statusMessage" class="mt-3 text-center fw-bold"></div>
+            </div>
+        </div>
+    </div>
+    <script src="./form.js"></script>
+
+</body>
+
+</html>
