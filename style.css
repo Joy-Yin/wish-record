@@ -100,6 +100,15 @@ h3 span {
     font-size: 1.3rem;
 }
 
+.form-check-label {
+    font-size: 1.3rem;
+    cursor: pointer;
+}
+
+.form-check-input {
+    accent-color: #ffc107;
+}
+
 .form-select {
     font-size: 1.2rem;
     border-radius: 8px;

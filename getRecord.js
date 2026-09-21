@@ -55,13 +55,15 @@ window.addEventListener('DOMContentLoaded', function () {
             if (row.length < 6) continue;
 
             // 格式化時間 (將 Google 產出的 ISO 時間轉成美觀格式)
-            let formattedDate = row[0];
-            try {
-                const d = new Date(row[0]);
-                if (!isNaN(d)) {
-                    formattedDate = `${d.getFullYear()}/${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')} ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+            let formattedDate = row[0].replace(/"/g, '').trim();
+            if (formattedDate.includes(':')) {
+                const parts = formattedDate.split(':');
+                if (parts.length === 3) {
+                    // 如果有三個部分 (時:分:秒)，就只保留到 (時:分)
+                    formattedDate = parts[0] + ':' + parts[1];
                 }
-            } catch (e) { }
+            }
+            
 
             records.push({
                 time: formattedDate,
