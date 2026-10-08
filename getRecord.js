@@ -5,6 +5,12 @@ let currentPage = 1;
 const rowsPerPage = 10;
 let currentFilteredData = [];
 
+const standard5Stars = {
+    "原神": ["迪盧克", "琴", "莫娜", "刻晴", "七七", "提納里", "迪希雅", "夢見月瑞希"],
+    "崩鐵": ["姬子", "瓦爾特", "布洛妮婭", "傑帕德", "克拉拉", "彥卿", "白露", "希兒", "銀狼", "刃", "符玄", "銀枝", "雲璃"],
+    "絕區零": ["格莉絲", "麗娜", "貓又", "柯蕾妲", "萊卡恩", "11號", "朱鳶", "凱撒", "月城柳"]
+};
+
 window.addEventListener('DOMContentLoaded', function () {
     const historyTableBody = document.getElementById('historyTableBody');
     const refreshBtn = document.getElementById('refreshBtn');
@@ -20,6 +26,8 @@ window.addEventListener('DOMContentLoaded', function () {
     const btnPrevPage = document.getElementById('btnPrevPage');
     const btnNextPage = document.getElementById('btnNextPage');
     const txtPageNum = document.getElementById('txtPageNum');
+    const fiftyFifty = document.getElementById('fifty-fifty');
+    const radianceCount = document.getElementById('radianceCount');
 
     // 直接改讀公開 CSV
     function fetchHistory() {
@@ -63,7 +71,7 @@ window.addEventListener('DOMContentLoaded', function () {
                     formattedDate = parts[0] + ':' + parts[1];
                 }
             }
-            
+
 
             records.push({
                 time: formattedDate,
@@ -96,17 +104,56 @@ window.addEventListener('DOMContentLoaded', function () {
         let currentPullsCount = 0;
         let fiveStarCount = 0;
         let totalFiveStarCostPulls = 0;
+        let isPityGuaranteed = false; // 是否為大保底（前一次歪了，下次必中 UP）
+        let radianceFailCount = 0;    // 捕獲明光失敗計數器 (0次, 1次, 2次, 3次)
 
         poolSequence.forEach(item => {
             currentPullsCount++;
+            // 初始化狀態屬性
+            item.gachaStatus = "";
+            item.computedPulls = null;
+            item.radianceCount = 0;
             if (item.rarity === '5星') {
                 item.computedPulls = currentPullsCount;
                 totalFiveStarCostPulls += currentPullsCount;
                 fiveStarCount++;
-                currentPullsCount = 0;
-            } else {
-                item.computedPulls = null;
-            }
+                currentPullsCount = 0; // 抽數重置
+                if (item.bannerType === "限定池") {
+                    const isStandard = (standard5Stars[item.gameName] || []).includes(item.itemName);
+                    if (isPityGuaranteed) { // 大保底
+                        item.gachaStatus = "大保底";
+                        isPityGuaranteed = false; // 大保底消耗掉，重設為小保底
+                        item.radianceCount = radianceFailCount;
+                    } else {
+                        if(isStandard){ // 歪
+                            item.gachaStatus = "歪";
+                            isPityGuaranteed = true; // 觸發下一次是大保底
+                            if (item.gameName === "原神") { //加捕獲明光計數
+                                radianceFailCount = Math.min(radianceFailCount + 1, 3); //最高到3(連歪3次)
+                                item.radianceCount = radianceFailCount;
+                            }
+                        } else { // 沒歪
+                            if (item.gameName === "原神" && radianceFailCount == 3){
+                                item.gachaStatus = "捕獲明光";
+                                radianceFailCount = 1;
+                                item.radianceCount = radianceFailCount;
+                            } else if(item.gameName === "原神") {
+                                item.gachaStatus = "沒歪";
+                                radianceFailCount = Math.max(radianceFailCount - 1, 0); //最低到0
+                                item.radianceCount = radianceFailCount;
+                            } else {
+                                item.gachaStatus = "沒歪";
+                            }
+                        }
+                    }
+                } else {
+                    item.gachaStatus = "常駐/武器池五星";
+                }
+
+            } 
+            // else {
+            //     item.computedPulls = null;
+            // }
         });
 
         currentFilteredData = poolSequence.filter(item => {
@@ -125,6 +172,8 @@ window.addEventListener('DOMContentLoaded', function () {
                 statsAvgPulls.innerText = `平均五星產出: 尚未出過貨`;
             }
             thPullsCount.className = (targetRarity === '5星') ? 'fw-bold text-warning' : 'hidden';
+            fiftyFifty.className = (targetRarity === '5星') ? 'fw-bold text-warning' : 'hidden';
+            radianceCount.className = (targetRarity === '5星' && targetGame === "原神") ? 'fw-bold text-warning' : 'hidden';
         } else {
             if (targetRarity === '5星') {
                 statsBox.classList.remove('hidden');
@@ -166,6 +215,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
         const targetPlayer = filterPlayer.value;
         const targetRarity = filterRarity.value;
+        const targetGame= filterGame.value;
         const isStrictPoolSelected = (targetPlayer !== 'ALL' && filterGame.value !== 'ALL' && filterBanner.value !== 'ALL');
 
         pageData.forEach(item => {
@@ -184,6 +234,11 @@ window.addEventListener('DOMContentLoaded', function () {
 
             if (targetRarity === '5星' && isStrictPoolSelected) {
                 rowHtml += `<td class="fw-bold text-danger">${item.computedPulls} 抽</td>`;
+                rowHtml += `<td class="fw-bold text-danger">${item.gachaStatus} </td>`;
+                if(targetGame === "原神"){
+                    rowHtml += `<td class="fw-bold text-danger">${item.radianceCount} </td>`;
+                }
+                
             }
 
             tr.innerHTML = rowHtml;
