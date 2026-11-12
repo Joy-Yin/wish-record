@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>遊戲抽卡紀錄系統</title>
     <link href="./style.css" rel="stylesheet">
-
+    <script type="module" src="./form.js"></script>
 </head>
 
 <body>
@@ -93,6 +93,9 @@
                             <!-- 4星武器下拉選單 -->
                             <select class="form-select mb-2 hidden" id="singleItemSelectWeapon"></select>
 
+                            <!-- 5星常駐角色下拉選單 -->
+                            <select class="form-select mb-2 hidden" id="singleItemSelect5Char"></select>
+
                             <!-- 5星或4星武器選「其他」時顯示的自由輸入框 -->
                             <input type="text" class="form-control hidden" id="singleItemInput"
                                 placeholder="請手動輸入名稱...">
@@ -116,8 +119,7 @@
             </div>
         </div>
     </div>
-    <script src="./form.js"></script>
-
+    
 </body>
 
 </html>

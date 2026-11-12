@@ -1,15 +1,10 @@
 
+import { standard5Stars } from './data.js';
 const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT3lwbeUfEjntM2K3rgTI_8puNPDDCOBex97U6BCXfj-scvPYLqbDctl-HzL92_HyAcCNKg_D4KRlrP/pub?gid=0&single=true&output=csv";
 let allRawRecords = [];
 let currentPage = 1;
 const rowsPerPage = 10;
 let currentFilteredData = [];
-
-const standard5Stars = {
-    "原神": ["迪盧克", "琴", "莫娜", "刻晴", "七七", "提納里", "迪希雅", "夢見月瑞希"],
-    "崩鐵": ["姬子", "瓦爾特", "布洛妮婭", "傑帕德", "克拉拉", "彥卿", "白露", "希兒", "銀狼", "刃", "符玄", "銀枝", "雲璃"],
-    "絕區零": ["格莉絲", "麗娜", "貓又", "柯蕾妲", "萊卡恩", "11號", "朱鳶", "凱撒", "月城柳"]
-};
 
 window.addEventListener('DOMContentLoaded', function () {
     const historyTableBody = document.getElementById('historyTableBody');

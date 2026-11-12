@@ -1,4 +1,4 @@
-
+import { gachaData, standard5Stars } from './data.js';
 const GAS_URL = "__GAS_URL_HOLDER__";
 const SECRET_CODE = "__SECRET_CODE__";
 
@@ -25,23 +25,6 @@ const SECRET_CODE = "__SECRET_CODE__";
     }
 })();
 
-// 在這裡定義每款遊戲的 4 星選單內容（您可以自由增減）
-const gachaData = {
-    "原神": {
-        chars: ["班尼特", "行秋", "香菱", "菲謝爾", "雲堇", "久岐忍", "九條裟羅", "砂糖", "五郎", "凝光", "北斗", "托馬", "早柚", "煙緋", "羅莎莉亞", "芭芭拉", "諾艾爾", "辛焱", "迪奧娜", "重雲", "雷澤", "鹿野院平藏", "柯萊", "多莉", "坎蒂絲", "萊依拉", "琺露珊", "瑤瑤", "米卡", "卡維", "綺良良", "琳妮特", "菲米尼", "夏洛蒂", "夏沃蕾", "嘉明", "賽索斯", "卡齊娜", "歐洛倫", "藍硯", "伊安珊", "伊法", "塔利雅", "愛諾", "雅珂達", "葉洛亞", "布倫妮", "阿羅夏", "麗莎", "安柏", "凱亞"],
-        weapons: ["匣裡龍吟", "祭禮劍", "笛劍", "西風劍", "雨裁", "祭禮大劍", "鐘劍", "西風大劍", "西風長槍", "匣裡滅辰", "昭心", "祭禮殘章", "流浪樂章", "西風祕典", "弓藏", "祭禮弓", "絕弦", "西風獵弓", "其他"]
-    },
-
-    "崩鐵": {
-        chars: ["三月七", "丹恆", "阿蘭", "艾絲妲", "黑塔", "希露瓦", "娜塔莎", "佩拉", "桑博", "虎克", "青雀", "停雲", "素裳", "馭空", "盧卡", "玲可", "桂乃芬", "寒鴨", "雪衣", "米沙", "加拉赫", "貊澤"],
-        weapons: ["一場術後對話(娜塔莎)", "晚安與睡顏(佩拉)", "餘生的第一天(三月七)", "唯有沉默(丹恆)", "記憶中的模樣", "鼴鼠黨歡迎你(虎克)", "我的誕生(黑塔)", "同一種心情(克拉拉)", "獵物的視線(桑博)", "朗道的選擇(姊弟)", "論劍(素裳)", "與行星相會(艾絲妲)", "秘密誓心(阿蘭)", "別讓世界靜下來(希露瓦)", "此時恰好(羅剎)", "決心如汗珠般閃耀(盧卡)", "宇宙市場趨勢(托帕)", "按個追蹤吧(桂乃芬)", "舞舞舞(好耶)", "在藍天下(姊妹)", "天才們的休憩", "一場術後對話(娜塔莎)", "銘記於心的約定(米沙)", "兩個人的演唱會", "無邊曼舞", "諧樂靜默之後(星期日)", "芳華待灼(劍三月七)", "黑夜如影隨行(貊澤)", "夢的蒙太奇(導演)", "天才們的問候", "故事的下一頁(小昔漣)", "放個小假(珍珠)"]
-    },
-    "絕區零": {
-        chars: ["安比", "比利", "妮可", "可琳", "安東", "本", "蒼角", "露西", "派派", "賽斯", "波可娜", "潘引壺", "真斗"],
-        weapons: ["街頭巨星", "時光切片", "雨林饕客", "星輝引擎", "人為刀俎", "貴重骨核", "正版變身器", "雙生泣星", "兔能環", "幻變魔方", "喵運當頭", "德瑪拉電池II型", "聚寶箱", "居家服務員", "仿製星輝引擎", "旋鑽機", "比格汽缸", "含羞惡面", "好鬥的阿炮", "維序者特化型", "轟鳴座駕", "裁紙刀", "震元奇樞", "燔火朧夜"]
-    }
-};
-
 let currentMode = 'single'; // 'single' 或 'multi'
 
 window.onload = function () {
@@ -59,6 +42,7 @@ window.onload = function () {
     const radioWeapon = document.getElementById('radioWeapon');
     const singleItemSelectChar = document.getElementById('singleItemSelectChar');
     const singleItemSelectWeapon = document.getElementById('singleItemSelectWeapon');
+    const singleItemSelect5Char = document.getElementById('singleItemSelect5Char');
 
     // --- 1. 頁籤切換邏輯 ---
     tabSingle.addEventListener('click', () => {
@@ -91,6 +75,7 @@ window.onload = function () {
         singleItemSelectChar.classList.add('hidden');
         singleItemSelectWeapon.classList.add('hidden');
         singleItemInput.classList.add('hidden');
+        singleItemSelect5Char.classList.add('hidden')
 
         if (rarity === '4星') {
             // 亮出 角色/武器 二選一 Radio Box
@@ -126,9 +111,22 @@ window.onload = function () {
                 }
             }
         } else if (rarity === '5星') {
-            // B. 5星：直接顯示手動輸入框
-            singleItemInput.classList.remove('hidden');
-            singleItemInput.placeholder = `請輸入 ${game} 的 5 星名稱...`;
+            // B. 5星：顯示角色選單
+            singleItemSelect5Char.classList.remove('hidden');
+            if(singleItemSelect5Char.innerHTML === "" || singleItemSelect5Char.dataset.game !== game){
+                singleItemSelect5Char.dataset.game = game;
+                singleItemSelect5Char.innerHTML = '<option value="" disabled selected>請選擇 5 星角色...</option>';
+                (standard5Stars[game] || []).forEach(item => {
+                    let opt = document.createElement('option'); opt.value = item; opt.textContent = item;
+                    singleItemSelect5Char.appendChild(opt);
+                });
+            }
+            if (singleItemSelect5Char.value === "其他") {
+                singleItemInput.classList.remove('hidden');
+                singleItemInput.placeholder = `請輸入 ${game} 的 5 星名稱...`;
+            }
+            // singleItemInput.classList.remove('hidden');
+            // singleItemInput.placeholder = `請輸入 ${game} 的 5 星名稱...`;
             // singleItemInput.value = "";
         } else {
             // C. 3星：簡化，不顯示任何東西
@@ -139,16 +137,17 @@ window.onload = function () {
     radioChar.addEventListener('change', updateSingleOptions);
     radioWeapon.addEventListener('change', updateSingleOptions);
     singleItemSelectWeapon.addEventListener('change', updateSingleOptions); // 武器選單改變時也要重新判定是否顯示「其他」
+    singleItemSelect5Char.addEventListener('change', updateSingleOptions);
     gameSelect.addEventListener('change', () => {
         singleItemSelectChar.innerHTML = "";
         singleItemSelectWeapon.innerHTML = "";
+        singleItemSelect5Char.innerHTML = "";
         updateSingleOptions();
     });
 
     // --- 3. 十連抽動態列渲染 ---
     function renderMultiRows() {
         multiRowsContainer.innerHTML = "";
-        const game = gameSelect.value;
 
         for (let i = 1; i <= 10; i++) {
             const row = document.createElement('div');
@@ -172,7 +171,7 @@ window.onload = function () {
                 <div class="row mt-2 g-2 hidden" id="multiOtherInputBox_${i}">
                     <div class="col-2"></div>
                     <div class="col-10">
-                        <input type="text" class="form-control form-control-sm multi-other-input" placeholder="請手動輸入 4 星武器名稱...">
+                        <input type="text" class="form-control form-control-sm multi-other-input" placeholder="請手動輸入角色/武器名稱...">
                     </div>
                 </div>
             `;
@@ -215,16 +214,40 @@ window.onload = function () {
                     // 初始觸發一次，預設帶入 4 星角色清單
                     updateMultiSubOptions(idx, 'char');
 
-                } else {
-                    // 只要這一列不是 4 星（改選 3星 或 5星），就把隱藏輸入框的必填限制徹底關掉
+                } else if(val === '5星'){ //從這裡開始改!!!!!(戰術性躺平)
+                    // 1. 先取得對應遊戲的角色陣列，並直接轉換成一長串 <option> HTML 字串
+                    const game = gameSelect.value;
+                    const optionsHtml = (standard5Stars[game] || [])
+                        .map(char => `<option value="${char}">${char}</option>`)
+                        .join('');
+
+                    // 2. 直接將轉換好的字串變數塞進你的 template literal 裡
+                    itemBox.innerHTML = `
+                        <div class="d-flex gap-1">
+                            <select class="form-select form-select-sm multi-item-val" id="multiSelectSub_${idx}" data-index="${idx}">
+                                <option value="" disabled selected>請選擇角色...</option>
+                                ${optionsHtml}
+                            </select>
+                        </div>
+                    `;
+                    // 3. 抓取剛剛生出來的這個選單
+                    const selectEl = document.getElementById(`multiSelectSub_${idx}`);
+
+                    // 4. 監聽選單變化：只要選到 "其他"，就顯示輸入框
+                    selectEl.addEventListener('change', function() {
+                        if (this.value === '其他') {
+                            otherInputBox.classList.remove('hidden');
+                        } else {
+                            otherInputBox.classList.add('hidden');
+                            otherInputBox.classList.add('hidden');
+                            otherInputBox.querySelector('input').value = ""; // 順便清空文字
+                        }
+                    });
+                } else{ // 3星
+                    // 只要這一列是 3星，就把隱藏輸入框的必填限制徹底關掉
                     otherInputBox.classList.add('hidden');
                     otherInputBox.querySelector('input').value = ""; // 順便清空文字
-
-                    if (val === '5星') {
-                        itemBox.innerHTML = `<input type="text" class="form-control form-control-sm multi-item-val" placeholder="手動輸入5星角色/武器">`;
-                    } else {
-                        itemBox.innerHTML = `<span class="text-muted small">3星武器/光錐</span>`;
-                    }
+                    itemBox.innerHTML = `<span class="text-muted small">3星武器/光錐</span>`;
                 }
             });
         });
@@ -264,8 +287,6 @@ window.onload = function () {
         }
     }
 
-
-
     // 初始初始化
     updateSingleOptions();
 
@@ -287,7 +308,7 @@ window.onload = function () {
         let recordsToSend = [];
         if (currentMode === 'single') {
             let finalName = "3星武器/光錐";
-            rarity = singleRarity.value;
+            const rarity = singleRarity.value;
             if (rarity === '4星') {
                 if (radioChar.checked) {
                     if (!singleItemSelectChar.value) { alert("⚠️ 請選擇抽到的 4 星角色！"); return; }
@@ -303,8 +324,14 @@ window.onload = function () {
                     }
                 }
             } else if (rarity === '5星') {
-                if (!singleItemInput.value.trim()) { alert("⚠️ 請手動輸入 5 星名稱！"); return; }
-                finalName = singleItemInput.value;
+                if (!singleItemSelect5Char.value.trim()) { alert("⚠️ 請手動輸入 5 星名稱！"); return; }
+                if(singleItemSelect5Char.value === "其他"){
+                    if (!singleItemInput.value.trim()) { alert("⚠️ 請手動輸入 5 星名稱！other"); return; }
+                    finalName = singleItemInput.value;
+                } else{
+                    finalName = singleItemSelect5Char.value;
+                }
+                
             }
             recordsToSend.push({ ...commonData, rarity: singleRarity.value, itemName: finalName });
         } else {// 十連抽模式：撈取 1~10 列的資料
@@ -315,9 +342,9 @@ window.onload = function () {
                 
                 let name = "3星武器/光錐";
                 if (valElement) {
-                    // 🌟 核心變更：如果這一列是 4 星且子選單選到了「其他」，抓取下方第 2 行輸入框的值
-                    if (raritySelect.value === '4星' && valElement.value === '其他') {
-                        name = otherInput.value || "未知名 4 星武器";
+                    // 子選單選到了「其他」，抓取下方第 2 行輸入框的值
+                    if (valElement.value === '其他') {
+                        name = otherInput.value || "未知名物品";
                     } else {
                         name = valElement.value;
                     }
@@ -339,6 +366,7 @@ window.onload = function () {
             singleItemInput.value = "";
             singleItemSelectChar.value = "";
             singleItemSelectWeapon.value = "";
+            singleItemSelect5Char.value = "";
             updateSingleOptions();
             if (currentMode === 'multi')
                 renderMultiRows();
