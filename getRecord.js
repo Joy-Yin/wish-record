@@ -1,5 +1,5 @@
 
-import { standard5Stars } from './data.js';
+import { standard5Stars } from './wishData.js';
 const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT3lwbeUfEjntM2K3rgTI_8puNPDDCOBex97U6BCXfj-scvPYLqbDctl-HzL92_HyAcCNKg_D4KRlrP/pub?gid=0&single=true&output=csv";
 let allRawRecords = [];
 let currentPage = 1;

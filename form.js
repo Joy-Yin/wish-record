@@ -1,4 +1,4 @@
-import { gachaData, standard5Stars } from './data.js';
+import { gachaData, standard5Stars } from './wishData.js';
 const GAS_URL = "__GAS_URL_HOLDER__";
 const SECRET_CODE = "__SECRET_CODE__";
 
